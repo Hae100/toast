@@ -135,7 +135,7 @@
         </div>
         <p id="advice-content" class="whitespace-pre-line text-[15px] leading-8 text-[#67483a] sm:text-base"></p>
         <div class="mt-5 rounded-2xl bg-[#fff0e5] p-4">
-         <p class="text-sm font-bold leading-6 text-[#7d5646]">💡 언제든 도움이 필요할 때 담임 선생님이나 상담 선생님을 찾아오세요.</p>
+         <p class="text-sm font-bold leading-6 text-[#7d5646]">💡 조언대로 직접 말해보고 행동해 본 뒤, 마음이 풀리지 않을 때 언제든 다시 이용해 주세요.</p>
         </div>
        </div>
       </article>
@@ -151,7 +151,7 @@
   </div>
 
   <script>
-    // 새로 배포하신 구글 앱스 크립트 URL을 입력해 주세요.
+    // 전달해주신 구글 앱스 크립트 URL 적용
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzOhuA1JrI4n5_jsPxmqS0H7LG9KlH3aTbyIzVDoHtV4UMIpuutyhVHQ5E0BRBa6y98/exec";
 
     const form = document.getElementById("toast-form");
@@ -164,7 +164,8 @@
     const crisisBanner = document.getElementById("crisis-banner");
     const crisisBannerText = document.getElementById("crisis-banner-text");
 
-    const CRISIS_PATTERN = /자살|죽고\s*싶|죽어버리|자해|사라지고\s*싶|폭행|때렸|맞았|맞고|폭력|주먹|칼|피가\s*나|다쳤|멍이\s*들/;
+    // 극단적 위기 단어만 한정 (일반 다툼/신체 표현 완벽 제외)
+    const CRISIS_PATTERN = /자살|죽고\s*싶|죽어버리|자해|사라지고\s*싶|목숨|손목|칼로/;
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -200,12 +201,12 @@
         if (resData.status === "success") {
           adviceContent.textContent = resData.advice;
         } else {
-          adviceContent.textContent = "AI 조언을 생성하는 도중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+          adviceContent.textContent = "AI 조언을 생성하는 도중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.";
         }
 
       } catch (err) {
         console.error("통신 에러:", err);
-        adviceContent.textContent = "서버 연결에 실패했습니다. 구글 앱스 크립트 URL 및 배포 설정을 확인해 주세요.";
+        adviceContent.textContent = "서버 연결에 실패했습니다. 구글 앱스 크립트 설정 또는 배포 상태를 확인해 주세요.";
       }
 
       bakeButton.disabled = false;
@@ -213,9 +214,9 @@
       lucide.createIcons();
 
       if (isCrisis) {
-        resultTitle.textContent = `${name} 학생, 선생님이 함께 할게요`;
+        resultTitle.textContent = `${name} 학생, 마음을 나누어주어 고마워요`;
         toastCard.classList.add("is-crisis");
-        crisisBannerText.textContent = "선생님의 도움이 꼭 필요한 내용이 포함되어 있어요. 지금 바로 선생님께 이야기해 주세요.";
+        crisisBannerText.textContent = "혼자 고민하기보다 믿을 수 있는 어른이나 선생님과 이야기를 나누는 것이 꼭 필요한 상황이에요.";
         crisisBanner.classList.remove("hidden");
       } else {
         resultTitle.textContent = `${name}의 마음 토스트가 완성됐어요`;
