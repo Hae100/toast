@@ -201,7 +201,7 @@
         if (resData.status === "success") {
           adviceContent.textContent = resData.advice;
         } else {
-          adviceContent.textContent = "AI 조언을 생성하는 도중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.";
+          adviceContent.textContent = "AI 조언을 생성하는 도중 오류가 발생했습니다.\n[상세 원인] " + resData.message;
         }
 
       } catch (err) {
