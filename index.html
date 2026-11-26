@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>마음 토스트 - 토스트 쌤과 이야기하기</title>
+  <title>마음 구이집 - 구이 사장님과 이야기하기</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,14 +13,23 @@
     body { margin:0; color:var(--ink); font-family:"Gowun Dodum","Quicksand",sans-serif; }
     button, input, textarea { font: inherit; }
     .toast-pattern {
-      background-color:#fffaf2;
+      background-color:#1b1230;
+      background-attachment:fixed;
       background-image:
-        radial-gradient(circle at 8% 15%, rgba(255,214,107,.32) 0 4px, transparent 5px),
-        radial-gradient(circle at 91% 13%, rgba(238,136,123,.20) 0 6px, transparent 7px),
-        radial-gradient(circle at 76% 84%, rgba(184,223,203,.34) 0 6px, transparent 7px),
-        radial-gradient(circle at 15% 78%, rgba(238,136,123,.13) 0 4px, transparent 5px);
+        radial-gradient(1.6px 1.6px at 8% 14%, rgba(255,255,255,.9) 50%, transparent 52%),
+        radial-gradient(1.2px 1.2px at 22% 62%, rgba(255,240,200,.8) 50%, transparent 52%),
+        radial-gradient(2px 2px at 35% 28%, rgba(255,214,107,.9) 50%, transparent 52%),
+        radial-gradient(1.2px 1.2px at 48% 80%, rgba(255,255,255,.7) 50%, transparent 52%),
+        radial-gradient(1.6px 1.6px at 61% 12%, rgba(255,255,255,.85) 50%, transparent 52%),
+        radial-gradient(2px 2px at 74% 55%, rgba(255,214,107,.8) 50%, transparent 52%),
+        radial-gradient(1.2px 1.2px at 86% 30%, rgba(255,240,200,.8) 50%, transparent 52%),
+        radial-gradient(1.6px 1.6px at 93% 86%, rgba(255,255,255,.8) 50%, transparent 52%),
+        radial-gradient(1.2px 1.2px at 14% 90%, rgba(255,255,255,.7) 50%, transparent 52%),
+        radial-gradient(ellipse at 12% 0%, rgba(255,160,90,.26), transparent 55%),
+        radial-gradient(ellipse at 92% 100%, rgba(238,136,123,.22), transparent 55%),
+        linear-gradient(180deg, #1a1230 0%, #2b1a3c 62%, #3b2433 100%);
     }
-    .soft-shadow { box-shadow: 0 18px 50px rgba(147,94,61,.13); }
+    .soft-shadow { box-shadow: 0 18px 50px rgba(10,5,25,.45), 0 0 0 1px rgba(255,214,107,.18); }
     .field-input {
       width:100%; border:2px solid #f3dfcf; background:#fffdf9; color:var(--ink); outline:none;
       transition:border-color .2s ease, box-shadow .2s ease;
@@ -49,10 +58,10 @@
 
     <header class="mx-auto flex w-full max-w-3xl items-center justify-between gap-4">
       <div class="flex items-center gap-3">
-        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffd66b] text-2xl shadow-sm">🍞</div>
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#ffd66b] text-2xl shadow-sm">🍠</div>
         <div>
-          <p class="text-xs font-bold tracking-wide text-[#b86a46] sm:text-sm">따뜻한 대화가 피어나는 곳</p>
-          <h1 class="text-2xl font-bold leading-tight text-[#64463a] sm:text-3xl">마음 토스트</h1>
+          <p class="text-xs font-bold tracking-wide text-[#ffd66b] sm:text-sm">노릇노릇 이야기가 익어 가는 곳</p>
+          <h1 class="text-2xl font-bold leading-tight text-[#fff3dc] sm:text-3xl">마음 구이집</h1>
         </div>
       </div>
       <button id="new-chat-top" type="button" class="hidden rounded-full bg-[#ffe7bb] px-4 py-2 text-sm font-bold text-[#87523a] hover:bg-[#ffdca0]">새로 시작</button>
@@ -64,9 +73,9 @@
       <section id="start-view">
         <div class="soft-shadow rounded-[32px] bg-white p-6 sm:p-9">
           <div class="mb-6 text-center">
-            <div class="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-[#fff0d6] text-5xl">🍞</div>
-            <h2 class="text-2xl font-bold text-[#64463a]">토스트 쌤과 이야기해 볼까?</h2>
-            <p class="mt-2 leading-7 text-[#7e5c4d]">속상한 일, 친구와의 일, 그냥 하고 싶은 말까지<br class="hidden sm:block"> 편하게 말해 줘. 토스트 쌤이 바로 답해 줄게.</p>
+            <div class="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-[#fff0d6] text-5xl">🍠</div>
+            <h2 class="text-2xl font-bold text-[#64463a]">구이 사장님과 이야기해 볼까?</h2>
+            <p class="mt-2 leading-7 text-[#7e5c4d]">속상한 일, 친구와의 일, 그냥 하고 싶은 말까지<br class="hidden sm:block"> 편하게 말해 줘. 구이 사장님이 바로 답해 줄게.</p>
           </div>
 
           <form id="start-form" class="mx-auto max-w-sm">
@@ -78,7 +87,7 @@
           </form>
 
           <div class="mx-auto mt-7 max-w-md rounded-2xl bg-[#fff5ee] px-4 py-3 text-xs leading-6 text-[#8c6b5d]">
-            <p>🤖 토스트 쌤은 <b>AI 상담 도우미</b>예요. 사람 선생님을 대신할 수는 없어요.</p>
+            <p>🤖 구이 사장님은 <b>AI 상담 도우미</b>예요. 사람 선생님을 대신할 수는 없어요.</p>
             <p>👀 우리가 나눈 이야기는 <b>담임 선생님이 확인할 수 있어요.</b></p>
             <p>🧡 많이 힘들 땐 믿을 수 있는 어른께 꼭 말해 주세요.</p>
           </div>
@@ -103,9 +112,9 @@
 
         <div class="chat-panel soft-shadow flex flex-col overflow-hidden rounded-[28px] bg-white">
           <div class="flex items-center gap-3 border-b border-[#f3e4d4] bg-[#fff8ec] px-4 py-3">
-            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-[#ffd66b] text-xl">🍞</div>
+            <div class="flex h-10 w-10 items-center justify-center rounded-full bg-[#ffd66b] text-xl">🍠</div>
             <div class="leading-tight">
-              <p class="font-bold">토스트 쌤</p>
+              <p class="font-bold">구이 사장님</p>
               <p class="text-xs text-[#9a7d70]">AI 상담 도우미 · 이야기를 들어 줄게</p>
             </div>
           </div>
@@ -134,7 +143,7 @@
 
 <script>
   // 구글 앱스 스크립트 웹앱 주소 (배포 URL이 바뀌면 여기만 수정)
-  const GAS_URL = "https://script.google.com/macros/s/AKfycby3dQlGjaovkrdU8BnL0mElhLypQMPIRuHzPDGydpCf0qGbLCElOD0lpoo-1O8VDfms/exec";
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbx-aCKZcr8su8bVC0vwuQ2q94zVH20NISA0Uwnn-3gfocN58C1hvK2kHuvSzTzn8xzX/exec";
 
   const REQUEST_TIMEOUT_MS = 90000;   // 서버가 여러 모델을 시도할 수 있어 넉넉히
   const AUTO_RETRY = 1;               // 통신 실패 시 자동 재시도 횟수
@@ -162,7 +171,7 @@
     if (role !== "user") {
       const av = document.createElement("div");
       av.className = "flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#ffd66b] text-base";
-      av.textContent = "🍞";
+      av.textContent = "🍠";
       row.appendChild(av);
     }
     const b = document.createElement("div");
@@ -180,7 +189,7 @@
     row.id = "typing";
     row.className = "msg-in flex items-end gap-2";
     row.innerHTML =
-      '<div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#ffd66b] text-base">🍞</div>' +
+      '<div class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#ffd66b] text-base">🍠</div>' +
       '<div class="bubble bubble-ai"><span class="dot"></span> <span class="dot"></span> <span class="dot"></span>' +
       '<span id="typing-label" class="ml-2 text-xs text-[#a88b7e]"></span></div>';
     messagesEl.appendChild(row);
@@ -192,7 +201,7 @@
 
   function showError(detail, retryFn) {
     const { bubble } = addBubble("ai",
-      "앗, 지금 토스트 쌤이 답을 가져오지 못했어. 네가 쓴 말은 그대로 남아 있어. 잠시 뒤에 '다시 보내기'를 눌러 줘 🍞",
+      "앗, 지금 구이 사장님이 답을 가져오지 못했어. 네가 쓴 말은 그대로 남아 있어. 잠시 뒤에 '다시 보내기'를 눌러 줘 🍠",
       "bubble-err");
     const btn = document.createElement("button");
     btn.type = "button";
@@ -329,8 +338,8 @@
 
     // 첫 인사는 AI를 부르지 않고 바로 보여 줌 (대기 시간 없음)
     addBubble("ai",
-      "안녕, " + name + "! 나는 토스트 쌤이야 🍞\n" +
-      "나는 AI 상담 도우미라서 사람 선생님은 아니지만, 네 이야기를 차분히 들어 줄게.\n" +
+      "어서 와, " + name + "! 마음 구이집에 온 걸 환영해 🍠\n" +
+      "나는 구이 사장님이야. AI 상담 도우미라서 사람 선생님은 아니지만, 네 이야기를 따끈하게 들어 줄게.\n" +
       "오늘은 어떤 일이 있었어? 편하게 말해 줘.");
     addChips();
     icons();
