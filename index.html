@@ -17,6 +17,7 @@
     * { box-sizing: border-box; }
     body { margin: 0; color: var(--ink); font-family: "Gowun Dodum", "Quicksand", sans-serif; }
     button, input, textarea { font: inherit; }
+    button:disabled { opacity: .7; cursor: not-allowed; }
     .toast-pattern {
       background-image:
         radial-gradient(circle at 8% 15%, rgba(255, 214, 107, .32) 0 4px, transparent 5px),
@@ -59,7 +60,9 @@
     </div>
     <p class="hidden rounded-full bg-[#ffe7bb] px-4 py-2 text-sm font-bold text-[#87523a] sm:block">선생님의 마음 상담실</p>
    </header>
+
    <main class="mx-auto w-full max-w-4xl pb-10 pt-8">
+    <!-- 입력 화면 -->
     <section id="form-view">
      <div class="mb-6 rounded-[28px] bg-[#fff5ee] border border-[#f3dfcf] px-6 py-5 sm:px-8">
       <div class="flex items-start gap-4">
@@ -70,6 +73,7 @@
        </div>
       </div>
      </div>
+
      <form id="toast-form" class="soft-shadow rounded-[32px] bg-white p-5 sm:p-8">
       <div class="mb-7 flex items-center gap-3">
        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#ffe7bb] text-[#b86a46]"><i data-lucide="chef-hat" class="h-5 w-5"></i></div>
@@ -78,6 +82,7 @@
         <p class="mt-1 text-sm text-[#8c6b5d]">아래 내용을 차근차근 입력해 주세요.</p>
        </div>
       </div>
+
       <div class="grid grid-cols-1 gap-5">
        <div>
         <label class="mb-2 block font-bold text-[#64463a]" for="student-name">이름 (또는 닉네임)</label>
@@ -98,7 +103,9 @@
         </div>
        </div>
       </div>
+
       <p id="form-message" class="mt-5 hidden rounded-2xl px-4 py-3 text-sm font-bold"></p>
+
       <div class="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
        <p class="max-w-lg text-xs leading-5 text-[#9a7d70]">※ 작성된 데이터는 선생님과의 상담 목적으로 안전하게 보관됩니다.</p>
        <button id="bake-button" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-[#ffd66b] hover:bg-[#f3ca5c] text-[#64463a] px-6 py-3 font-bold shadow-md transition" type="submit">
@@ -108,13 +115,23 @@
       </div>
      </form>
     </section>
+
+    <!-- 결과 화면 -->
     <section id="result-view" class="hidden result-enter">
      <div id="crisis-banner" class="crisis-banner mx-auto mb-6 hidden max-w-2xl rounded-[24px] px-5 py-4">
       <div class="flex items-start gap-3">
        <i data-lucide="alert-triangle" class="mt-0.5 h-5 w-5 flex-shrink-0"></i>
-       <p id="crisis-banner-text" class="text-sm font-bold leading-6"></p>
+       <div class="text-sm font-bold leading-6">
+        <p id="crisis-banner-text"></p>
+        <ul class="mt-2 list-disc pl-5 font-normal leading-6">
+         <li>청소년 상담전화 <b>1388</b> (24시간)</li>
+         <li>자살예방 상담전화 <b>109</b> (24시간)</li>
+         <li>지금 많이 위험하다면 <b>112 / 119</b></li>
+        </ul>
+       </div>
       </div>
      </div>
+
      <div class="mb-6 text-center">
       <div class="inline-flex items-center gap-2 rounded-full bg-[#ffe7bb] px-4 py-2 text-sm font-bold text-[#87523a]">
        <i data-lucide="coffee" class="h-4 w-4"></i>
@@ -123,6 +140,7 @@
       <h2 id="result-title" class="mt-4 text-2xl font-bold text-[#694737] sm:text-3xl"></h2>
       <p class="mt-2 text-sm text-[#8c6b5d]">천천히 읽어보며 마음을 정돈해 보세요.</p>
      </div>
+
      <div class="menu-board mx-auto max-w-2xl rounded-[32px] p-4 sm:p-7">
       <article id="toast-card" class="toast-card mx-auto max-w-xl px-5 pb-6 pt-7 sm:px-8 sm:pb-8">
        <div class="relative z-10 rounded-[23px] border border-[#f1d6bd] bg-[#fffdf7]/95 p-5 shadow-sm sm:p-7">
@@ -131,16 +149,28 @@
           <i data-lucide="heart-handshake" class="h-5 w-5"></i>
           <p class="font-bold">AI 전문 상담사의 조언 카드</p>
          </div>
-         <span class="rounded-full bg-[#fde8e8] px-3 py-1 text-xs font-bold text-[#d6756e]">AI 실시간 생성</span>
+         <span id="source-badge" class="rounded-full bg-[#fde8e8] px-3 py-1 text-xs font-bold text-[#d6756e]">AI 실시간 생성</span>
         </div>
+
+        <!-- AI 연결이 안 됐을 때만 보이는 안내 -->
+        <div id="fallback-notice" class="mb-4 hidden rounded-2xl bg-[#fff6d6] px-4 py-3 text-sm font-bold leading-6 text-[#7d5a1f]">
+         지금 AI 상담사 선생님이 많은 친구들과 이야기 중이라 연결이 어려워요. 대신 기본 조언 카드를 먼저 구워 왔어요. 잠시 뒤에 아래 버튼을 눌러 AI 조언을 다시 받아볼 수 있어요.
+        </div>
+
         <p id="advice-content" class="whitespace-pre-line text-[15px] leading-8 text-[#67483a] sm:text-base"></p>
+
         <div class="mt-5 rounded-2xl bg-[#fff0e5] p-4">
          <p class="text-sm font-bold leading-6 text-[#7d5646]">💡 조언대로 직접 말해보고 행동해 본 뒤, 마음이 풀리지 않을 때 언제든 다시 이용해 주세요.</p>
         </div>
        </div>
       </article>
      </div>
-     <div class="mt-8 flex justify-center">
+
+     <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <button id="retry-button" class="hidden min-h-14 items-center justify-center gap-2 rounded-2xl bg-[#ffd66b] hover:bg-[#f3ca5c] text-[#64463a] px-7 py-3 font-bold shadow-md transition" type="button">
+       <i data-lucide="refresh-cw" class="h-5 w-5"></i>
+       <span>AI 조언 다시 받기</span>
+      </button>
       <button id="reset-button" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-[#b8dfcb] hover:bg-[#a6d4be] text-[#3b5e4c] px-7 py-3 font-bold shadow-md transition" type="button">
        <i data-lucide="rotate-ccw" class="h-5 w-5"></i>
        <span>다시 작성하기</span>
@@ -151,67 +181,144 @@
   </div>
 
   <script>
-    // 새로 제공해주신 구글 앱스 크립트 URL 적용
+    // ===== 설정 =====
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx-aCKZcr8su8bVC0vwuQ2q94zVH20NISA0Uwnn-3gfocN58C1hvK2kHuvSzTzn8xzX/exec";
+    const MAX_ATTEMPTS = 4;          // AI 혼잡 시 최대 시도 횟수
+    const TIMEOUT_MS = 70000;        // 1회 요청 최대 대기 시간(밀리초)
+    const RETRY_BASE_DELAY_MS = 2000; // 재시도 간격: 2초 → 4초 → 8초
 
+    // 일시적 오류(재시도하면 될 수 있는 오류)로 판단할 문구
+    const RETRYABLE_PATTERN = /high demand|overload|unavailable|temporar|try again|503|500|429|rate|quota|exhaust|timeout|timed out|busy|일시|혼잡|과부하/i;
+
+    // 극단적 위기 표현만 감지 ('칼로리', '손목시계' 같은 일상 단어는 제외)
+    const CRISIS_PATTERN = /자살|죽고\s*싶|죽어\s*버리|죽을\s*래|죽고\s*말|자해|사라지고\s*싶|없어지고\s*싶|목숨|손목\s*(을|를)?\s*(긋|그어)|칼로\s*(찌|긋|베)/;
+
+    // ===== 요소 =====
     const form = document.getElementById("toast-form");
     const formView = document.getElementById("form-view");
     const resultView = document.getElementById("result-view");
     const bakeButton = document.getElementById("bake-button");
+    const retryButton = document.getElementById("retry-button");
+    const resetButton = document.getElementById("reset-button");
     const resultTitle = document.getElementById("result-title");
     const adviceContent = document.getElementById("advice-content");
     const toastCard = document.getElementById("toast-card");
     const crisisBanner = document.getElementById("crisis-banner");
     const crisisBannerText = document.getElementById("crisis-banner-text");
+    const sourceBadge = document.getElementById("source-badge");
+    const fallbackNotice = document.getElementById("fallback-notice");
 
-    // 극단적 위기 단어만 감지 (일반 다툼/신체 표현 완벽 제외)
-    const CRISIS_PATTERN = /자살|죽고\s*싶|죽어버리|자해|사라지고\s*싶|목숨|손목|칼로/;
+    let lastInput = null;     // 다시 받기 버튼용으로 마지막 입력값 보관
+    let isBusy = false;
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    const newRequestId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 
-      const name = document.getElementById("student-name").value.trim();
-      const context = document.getElementById("conflict-context").value.trim();
-      const emotion = document.getElementById("emotion").value.trim();
-      const outcome = document.getElementById("desired-outcome").value.trim();
+    // ===== 버튼 로딩 표시 =====
+    const BAKE_IDLE = `<i data-lucide="sparkles" class="h-5 w-5"></i><span>조언 토스트 굽기</span>`;
+    const RETRY_IDLE = `<i data-lucide="refresh-cw" class="h-5 w-5"></i><span>AI 조언 다시 받기</span>`;
 
-      const isCrisis = CRISIS_PATTERN.test(`${context} ${emotion} ${outcome}`);
-
-      bakeButton.disabled = true;
-      bakeButton.innerHTML = `<i data-lucide="sparkles" class="h-5 w-5 animate-spin"></i><span>AI가 조언을 굽는 중...</span>`;
+    function setLoading(btn, loading, text) {
+      btn.disabled = loading;
+      if (loading) {
+        btn.innerHTML = `<i data-lucide="loader" class="h-5 w-5 animate-spin"></i><span>${text}</span>`;
+      } else {
+        btn.innerHTML = btn === bakeButton ? BAKE_IDLE : RETRY_IDLE;
+      }
       lucide.createIcons();
+    }
 
-      try {
-        const payload = {
-          created_at: new Date().toLocaleString("ko-KR"),
-          student_name: name,
-          conflict_context: context,
-          emotion: emotion,
-          desired_outcome: outcome
-        };
+    // ===== 서버(구글 앱스 스크립트) 호출: 혼잡하면 자동 재시도 =====
+    async function requestAdvice(payload, onRetry) {
+      let lastError = new Error("알 수 없는 오류");
 
-        const response = await fetch(GAS_WEB_APP_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
+      for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+        let retryable = true;
 
-        const resData = await response.json();
+        try {
+          const response = await fetch(GAS_WEB_APP_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({ ...payload, attempt, final: attempt === MAX_ATTEMPTS }),
+            signal: controller.signal
+          });
 
-        if (resData.status === "success") {
-          adviceContent.textContent = resData.advice;
-        } else {
-          adviceContent.textContent = "AI 조언을 생성하는 도중 오류가 발생했습니다.\n[상세 원인] " + resData.message;
+          const raw = await response.text();
+          let data;
+          try { data = JSON.parse(raw); }
+          catch (_) { throw new Error("서버 응답을 읽을 수 없습니다: " + raw.slice(0, 100)); }
+
+          if (data.status === "success" && data.advice) {
+            return { advice: String(data.advice).trim(), attempt };
+          }
+
+          const msg = data.message || "응답에 조언이 없습니다.";
+          lastError = new Error(msg);
+          retryable = RETRYABLE_PATTERN.test(msg);
+        } catch (err) {
+          // 네트워크 끊김/타임아웃은 재시도 대상
+          lastError = err.name === "AbortError" ? new Error("응답 시간 초과") : err;
+          retryable = true;
+        } finally {
+          clearTimeout(timer);
         }
 
-      } catch (err) {
-        console.error("통신 에러:", err);
-        adviceContent.textContent = "서버 연결에 실패했습니다. 구글 앱스 크립트 배포 설정 및 접근 권한(모든 사용자)을 확인해 주세요.";
+        console.warn(`[시도 ${attempt}/${MAX_ATTEMPTS}] 실패:`, lastError.message);
+
+        if (!retryable || attempt === MAX_ATTEMPTS) break;
+        onRetry(attempt + 1);
+        await sleep(RETRY_BASE_DELAY_MS * Math.pow(2, attempt - 1));
+      }
+      throw lastError;
+    }
+
+    // ===== AI 연결 실패 시 보여줄 기본 조언 (학생이 쓴 내용을 활용) =====
+    function cut(text, n) {
+      const t = (text || "").replace(/\s+/g, " ").trim();
+      return t.length > n ? t.slice(0, n) + "…" : t;
+    }
+
+    function buildFallbackAdvice({ name, context, emotion, outcome }, isCrisis) {
+      if (isCrisis) {
+        return [
+          `${name}야, 이렇게 힘든 마음을 용기 내어 적어 줘서 정말 고마워.`,
+          "",
+          "지금 네 마음이 많이 아프고 무거운 것 같아서 선생님은 걱정이 돼. 이런 마음은 혼자 견디지 않아도 돼.",
+          "",
+          "1. 지금 바로 담임선생님, 보건선생님, 상담선생님이나 부모님처럼 믿을 수 있는 어른에게 \"나 요즘 너무 힘들어요\"라고 말해 보자.",
+          "2. 말하기 어렵다면 이 화면을 그대로 보여 드려도 괜찮아.",
+          "3. 언제든 청소년 상담전화 1388(24시간)에 전화하거나 문자를 보낼 수 있어.",
+          "",
+          "너는 소중한 사람이고, 네 마음을 도와줄 어른들이 있어."
+        ].join("\n");
       }
 
-      bakeButton.disabled = false;
-      bakeButton.innerHTML = `<i data-lucide="sparkles" class="h-5 w-5"></i><span>조언 토스트 굽기</span>`;
-      lucide.createIcons();
+      return [
+        `${name}야, 마음을 솔직하게 적어 줘서 고마워. 천천히 읽어 보자.`,
+        "",
+        "🍞 1단계. 내 마음 알아주기",
+        `"${cut(emotion, 40)}"라고 느꼈구나. 그런 일이 있었다면 누구라도 그런 마음이 들 수 있어. 내 감정은 틀린 게 아니야.`,
+        "",
+        "🍞 2단계. 숨 고르기",
+        "마음이 뜨거울 때는 바로 말하지 말고, 숨을 천천히 5번 쉬어 보자. 물을 한 모금 마시거나 잠깐 걷는 것도 좋아.",
+        "",
+        "🍞 3단계. 내 마음 말해 보기 (나-전달법)",
+        `"${cut(context, 40)}" 일이 있었을 때, 나는 ${cut(emotion, 20)}.`,
+        `그래서 나는 "${cut(outcome, 40)}" 이렇게 되면 좋겠어.`,
+        "이렇게 \"나는 ~했어\"로 시작해서 차분히 말하면 상대방도 내 마음을 더 잘 들을 수 있어.",
+        "",
+        "🍞 4단계. 도움 요청하기",
+        "혼자 해결하기 어렵다면 선생님이나 부모님께 도움을 청해도 괜찮아. 도움을 요청하는 건 용기 있는 행동이야.",
+        "",
+        "오늘도 네 마음을 돌본 너를 응원해! 🧡"
+      ].join("\n");
+    }
+
+    // ===== 결과 화면 그리기 =====
+    function renderResult({ name, isCrisis, advice, fromAI }) {
+      adviceContent.textContent = advice;
 
       if (isCrisis) {
         resultTitle.textContent = `${name} 학생, 마음을 나누어주어 고마워요`;
@@ -224,13 +331,80 @@
         crisisBanner.classList.add("hidden");
       }
 
+      if (fromAI) {
+        sourceBadge.textContent = "AI 실시간 생성";
+        fallbackNotice.classList.add("hidden");
+        retryButton.classList.add("hidden");
+        retryButton.classList.remove("inline-flex");
+      } else {
+        sourceBadge.textContent = "기본 조언 카드";
+        fallbackNotice.classList.remove("hidden");
+        retryButton.classList.remove("hidden");
+        retryButton.classList.add("inline-flex");
+      }
+
       formView.classList.add("hidden");
       resultView.classList.remove("hidden");
+      lucide.createIcons();
       resultView.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // ===== 조언 만들기 (제출/다시 받기 공통) =====
+    async function bake(input, btn) {
+      if (isBusy) return;
+      isBusy = true;
+      lastInput = input;
+
+      const isCrisis = CRISIS_PATTERN.test(`${input.context} ${input.emotion} ${input.outcome}`);
+      setLoading(btn, true, "AI가 조언을 굽는 중...");
+
+      const payload = {
+        request_id: newRequestId(),
+        created_at: new Date().toLocaleString("ko-KR"),
+        student_name: input.name,
+        conflict_context: input.context,
+        emotion: input.emotion,
+        desired_outcome: input.outcome,
+        manual_retry: btn === retryButton
+      };
+
+      let advice, fromAI;
+      try {
+        const result = await requestAdvice(payload, (nextAttempt) => {
+          setLoading(btn, true, `AI 상담사가 바빠서 다시 시도 중... (${nextAttempt}/${MAX_ATTEMPTS})`);
+        });
+        advice = result.advice;
+        fromAI = true;
+      } catch (err) {
+        console.error("AI 조언 생성 실패:", err);
+        advice = buildFallbackAdvice(input, isCrisis);
+        fromAI = false;
+      }
+
+      setLoading(btn, false);
+      isBusy = false;
+      renderResult({ name: input.name, isCrisis, advice, fromAI });
+    }
+
+    // ===== 이벤트 =====
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      bake({
+        name: document.getElementById("student-name").value.trim(),
+        context: document.getElementById("conflict-context").value.trim(),
+        emotion: document.getElementById("emotion").value.trim(),
+        outcome: document.getElementById("desired-outcome").value.trim()
+      }, bakeButton);
     });
 
-    document.getElementById("reset-button").addEventListener("click", () => {
+    retryButton.addEventListener("click", () => {
+      if (lastInput) bake(lastInput, retryButton);
+    });
+
+    resetButton.addEventListener("click", () => {
+      if (isBusy) return;
       form.reset();
+      lastInput = null;
       resultView.classList.add("hidden");
       formView.classList.remove("hidden");
       formView.scrollIntoView({ behavior: "smooth" });
